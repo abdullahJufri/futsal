@@ -5,7 +5,7 @@ namespace App\Controllers\api;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 
-class Futsal extends BaseController
+class Schedule extends BaseController
 {
     use ResponseTrait;
 
@@ -66,18 +66,18 @@ class Futsal extends BaseController
         return $this->response->setJSON($output);
     }
 
-    public function get_list_futsal()
+    public function get_list_schedule()
     {
         $success = false;
         $message = 'Gagal Proses Data';
 
-        $builder_list_futsal = $this->db->table('futsal');
-        // $builder_list_futsal->select('*,  l.id as id_lapangan');
-        // $builder_list_futsal->join('lapangan l', 'l.id_jumlah_lapangan = futsal.jumlah_lapangan', 'left');
+        $builder_list_schedule = $this->db->table('schedule');
 
+        $builder_list_schedule->select('*,  l.id as id_lapangan,l.nama_lapangan, f.harga_pagi, f.harga_malam, f.jam_buka, f.jam_tutup,');
+        $builder_list_schedule->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+        $builder_list_schedule->join('lapangan l', 'l.id_jumlah_lapangan = f.jumlah_lapangan', 'left');
 
-
-        $query_list_futsal    =  $builder_list_futsal->get();
+        $query_list_futsal    =  $builder_list_schedule->get();
 
 
 
@@ -147,7 +147,6 @@ class Futsal extends BaseController
         $id = $this->request->getPost('id');
 
         $builder_futsal_admin = $this->db->table('futsal');
-        $builder_futsal_admin->where('futsal.id_pengelola', $id);
         $builder_futsal_admin->select('*');
         $query_futsal_admin    =  $builder_futsal_admin->get();
         $row_futsal_admin = $query_futsal_admin->getRowArray();

@@ -85,7 +85,7 @@ class Auth extends BaseController
 
         $output['success'] = $success;
         $output['message'] = $message;
-        $output['data_user'] = $data_user;
+        $output['data'] = $data_user;
 
         return $this->response->setJSON($output);
     }

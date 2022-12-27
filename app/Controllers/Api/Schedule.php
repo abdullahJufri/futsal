@@ -18,64 +18,26 @@ class Schedule extends BaseController
     {
     }
 
-    // public function insert_futsal()
-    // {
-    //     $success = false;
-    //     $message = 'Gagal Proses Data';
-
-    //     $email = $this->request->getPost('email');
-    //     $name = $this->request->getPost('name');
-    //     $jumlah_lapangan = $this->request->getPost('jumlah_lapangan');
-    //     $id_pengelola = $this->request->getPost('id_pengelola');
-    //     $alamat_lapangan = $this->request->getPost('alamat_lapangan');
-    //     $maps = $this->request->getPost('maps');
-    //     $builderUsers = $this->db->table('users');
-    //     $builderUsers->where(['email' => $email])->select('*');
-    //     $queryUsers    =  $builderUsers->get();
-
-    //     $rowUsers = $queryUsers->getRowArray();
-
-    //     if ($rowUsers['roles'] == 0) {
-    //         $dataValues['name'] = $name;
-    //         $dataValues['jumlah_lapangan'] = $jumlah_lapangan;
-    //         $dataValues['id_pengelola'] = $id_pengelola;
-    //         $dataValues['alamat_lapangan'] = $alamat_lapangan;
-    //         $dataValues['maps'] = $maps;
-    //         $tgl_buat = date('Y-m-d H:i:s');
-    //         $dataValues['created_at'] = $tgl_buat;
-
-    //         $builderInserts = $this->db->table('futsal');
-    //         $insertDatas =  $builderInserts->insert($dataValues);
-
-    //         if ($insertDatas) {
-    //             $success = true;
-    //             $message = 'Berhasil Mengambil Data';
-    //         } else {
-    //             $success = false;
-    //             $message = 'Gagal Mengambil Data, silahkan coba kembali';
-    //         }
-    //     } else {
-    //         $success = false;
-    //         $message = 'BUKAN ADMIN, silahkan coba kembali';
-    //     }
-
-
-    //     $output['success'] = $success;
-    //     $output['message'] = $message;
-
-    //     return $this->response->setJSON($output);
-    // }
-
-    public function get_list_schedule()
+  
+    public function list()
     {
         $success = false;
         $message = 'Gagal Proses Data';
 
-        $builder_list_schedule = $this->db->table('schedule');
+        $id_futsal = $this->request->getPost('id_futsal');
+        $id_lapangan = $this->request->getPost('id_lapangan');
+        $tanggal = $this->request->getPost('tanggal');
+        $jam = $this->request->getPost('jam');
 
-        $builder_list_schedule->select('*,  l.id as id_lapangan,l.nama_lapangan, f.harga_pagi, f.harga_malam, f.jam_buka, f.jam_tutup,');
+
+        $builder_list_schedule = $this->db->table('schedule');
+        $builder_list_schedule->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        $builder_list_schedule->where('id_futsal', $id_futsal,);
+        $builder_list_schedule->where('id_lapangan', $id_lapangan);
+        $builder_list_schedule->where('tanggal', $tanggal,);
+
         $builder_list_schedule->join('futsal f', 'f.id = schedule.id_futsal', 'left');
-        $builder_list_schedule->join('lapangan l', 'l.id_jumlah_lapangan = f.jumlah_lapangan', 'left');
+        $builder_list_schedule->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
 
         $query_list_futsal    =  $builder_list_schedule->get();
 
@@ -100,6 +62,116 @@ class Schedule extends BaseController
 
         return $this->response->setJSON($output);
     }
+
+
+
+    // public function insert()
+    // {
+    //     $success = false;
+    //     $message = 'Gagal Proses Data';
+
+    //     $id_futsal = $this->request->getPost('id_futsal');
+    //     $id_lapangan = $this->request->getPost('id_lapangan');
+    //     $tanggal = $this->request->getPost('tanggal');
+    //     $jam = $this->request->getPost('jam');
+
+
+    //     $builder = $this->db->table('schedule');
+    //     $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+    //     $builder->where('id_futsal', $id_futsal,);
+    //     $builder->where('id_lapangan', $id_lapangan);
+    //     $builder->where('tanggal', $tanggal,);
+
+    //     $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+    //     $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
+
+    //     $query =  $builder->get();
+
+
+    //     if (empty($query->getNumRows())) {
+    //         $dataValues['email'] = $email;
+    //         $dataValues['password'] = md5($password);
+    //         $dataValues['name'] = $name;
+    //         $dataValues['phone'] = $phone;
+    //         $dataValues['roles'] = $roles;
+    //         $tgl_buat = date('Y-m-d H:i:s');
+    //         $dataValues['created_at'] = $tgl_buat;
+
+    //         $builderInserts = $this->db->table('users');
+    //         $insertDatas =  $builderInserts->insert($dataValues);
+
+    //         if ($insertDatas) {
+    //             $success = true;
+    //             $message = 'Berhasil Melakukan Registrasi, silahkan login';
+    //         } else {
+    //             $success = false;
+    //             $message = 'Gagal Melakukan Registrasi, silahkan coba kembali';
+    //         }
+    //     } else {
+    //         $message = 'Akun Sudah Terdaftar, silahkan coba kembali';
+    //     }
+
+
+    //     if ($query->getNumRows() > 0) {
+    //         $success = true;
+    //         $message = 'Berhasil mengambil list';
+    //         $data = $query->GetResultArray();
+    //     } else {
+    //         $success = true;
+    //         $message = 'Gagal Mengambil list, silahkan coba kembali';
+    //         $data = [];
+    //     }
+
+
+
+    //     $output['success'] = $success;
+    //     $output['message'] = $message;
+    //     $output['data'] = $data;
+
+    //     return $this->response->setJSON($output);
+    // }
+
+    // public function list2()
+    // {
+    //     $success = false;
+    //     $message = 'Gagal Proses Data';
+
+    //     $tanggal = $this->request->getPost('tanggal');
+    //     $jam = $this->request->getPost('jam');
+    //     $id_futsal = $this->request->getPost('id_futsal');
+    //     $id_lapangan = $this->request->getPost('id_lapangan');
+
+    //     $builder_list_schedule = $this->db->table('schedule');
+    //     $builder_list_schedule->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+    //     // $builder_list_schedule->select('l.id as id_lapangan,l.nama_lapangan,');
+
+    //     $builder_list_schedule->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+    //     $builder_list_schedule->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
+
+    //     $query_list_futsal    =  $builder_list_schedule->get();
+
+
+
+
+    //     if ($query_list_futsal->getNumRows() > 0) {
+    //         $success = true;
+    //         $message = 'Berhasil mengambil list';
+    //         $data_list_futsal = $query_list_futsal->GetResultArray();
+    //     } else {
+    //         $success = true;
+    //         $message = 'Gagal Mengambil list, silahkan coba kembali';
+    //         $data_list_futsal = [];
+    //     }
+
+
+
+    //     $output['success'] = $success;
+    //     $output['message'] = $message;
+    //     $output['data'] = $data_list_futsal;
+
+    //     return $this->response->setJSON($output);
+    // }
+
 
     // public function get_detail_futsal()
     // {

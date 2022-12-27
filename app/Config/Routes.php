@@ -20,7 +20,7 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false);
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
@@ -36,6 +36,31 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+
+// $routes->resource('Futsal');
+
+
+//for ADMIN
+$routes->post('api/admin/login', 'api\Auth::login');
+$routes->post('api/admin/register', 'api\Auth::registration');
+
+$routes->post('api/admin/futsal', 'api\admin\Futsal::list');
+$routes->post('api/admin/insert', 'api\admin\Futsal::insert');
+
+$routes->post('api/admin/schedule', 'api\admin\Schedule::list');
+
+//for USER
+
+//auth
+$routes->post('api/login', 'api\Auth::login');
+$routes->post('api/register', 'api\Auth::registration');
+
+$routes->get('api/futsal', 'api\Futsal::list');
+$routes->post('api/futsal', 'api\Futsal::list');
+
+
+// $routes->get('api/futsal/list2', 'api\Futsal::list/$1');
+
 
 /*
  * --------------------------------------------------------------------

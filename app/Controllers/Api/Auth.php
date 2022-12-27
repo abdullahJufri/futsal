@@ -33,15 +33,24 @@ class Auth extends BaseController
         $builderUsers->where(['email' => $email,]);
         $queryUsers    =  $builderUsers->get();
 
+
         if (empty($queryUsers->getNumRows())) {
+            switch ($roles) {
+                case null:
+                    $dataValues['roles'] = 1;
+                    break;
+
+                default:
+                    $dataValues['roles'] = $roles;
+
+                    break;
+            }
             $dataValues['email'] = $email;
             $dataValues['password'] = md5($password);
             $dataValues['name'] = $name;
             $dataValues['phone'] = $phone;
-            $dataValues['roles'] = $roles;
             $tgl_buat = date('Y-m-d H:i:s');
             $dataValues['created_at'] = $tgl_buat;
-
             $builderInserts = $this->db->table('users');
             $insertDatas =  $builderInserts->insert($dataValues);
 

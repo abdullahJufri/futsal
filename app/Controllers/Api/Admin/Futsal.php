@@ -29,11 +29,11 @@ class Futsal extends BaseController
         $id_pengelola = $this->request->getPost('id_pengelola');
         $alamat_lapangan = $this->request->getPost('alamat_lapangan');
         $maps = $this->request->getPost('maps');
-        $builderUsers = $this->db->table('users');
-        $builderUsers->where(['email' => $email])->select('*');
-        $queryUsers    =  $builderUsers->get();
+        $builder = $this->db->table('users');
+        $builder->where(['email' => $email])->select('*');
+        $query =  $builder->get();
 
-        $rowUsers = $queryUsers->getRowArray();
+        $rowUsers = $query->getRowArray();
 
         if ($rowUsers['roles'] == 0) {
             $dataValues['name'] = $name;

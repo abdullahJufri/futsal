@@ -18,7 +18,7 @@ class Schedule extends BaseController
     {
     }
 
-  
+
     public function list()
     {
         $success = false;
@@ -59,6 +59,67 @@ class Schedule extends BaseController
         $output['success'] = $success;
         $output['message'] = $message;
         $output['data'] = $data_list_futsal;
+
+        return $this->response->setJSON($output);
+    }
+
+    public function insert()
+    {
+        $success = false;
+        $message = 'Gagal Proses Data';
+
+        $id_user = $this->request->getPost('id_user');
+        $id_futsal = $this->request->getPost('id_futsal');
+        $id_lapangan = $this->request->getPost('id_lapangan');
+        $tanggal = $this->request->getPost('tanggal');
+        $jam = $this->request->getPost('jam');
+
+
+        $builder = $this->db->table('schedule');
+        $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        $builder->where('id_futsal', $id_futsal,);
+        $builder->where('id_lapangan', $id_lapangan);
+        $builder->where('tanggal', $tanggal,);
+        $builder->where('jam', $jam,);
+
+
+        $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+        $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
+
+        $query    =  $builder->get();
+
+
+
+
+
+        if ($query->getNumRows() > 0) {
+            $success = true;
+            $message = 'full';
+            $data = [];
+        } else {
+            $dataValues['id_user'] = $id_user;
+            $dataValues['id_futsal'] = $id_futsal;
+            $dataValues['id_lapangan'] = $id_lapangan;
+            $dataValues['tanggal'] = $tanggal;
+            $dataValues['jam'] = $jam;
+            $tgl_buat = date('Y-m-d H:i:s');
+            $dataValues['created_at'] = $tgl_buat;
+            $insertDatas =  $builder->insert($dataValues);
+
+            if ($insertDatas) {
+                $success = true;
+                $message = 'Berhasil Booking ';
+            } else {
+                $success = false;
+                $message = 'Gagal Menambah Data, silahkan coba kembali';
+            }
+        }
+
+
+
+        $output['success'] = $success;
+        $output['message'] = $message;
+        $output['data'] = $data;
 
         return $this->response->setJSON($output);
     }

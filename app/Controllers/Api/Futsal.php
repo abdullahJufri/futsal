@@ -4,6 +4,7 @@ namespace App\Controllers\api;
 
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\HTTP\Request;
 
 class Futsal extends BaseController
 {
@@ -58,6 +59,49 @@ class Futsal extends BaseController
         $output['success'] = $success;
         $output['message'] = $message;
         $output['data'] = $data_list_futsal;
+
+        return $this->response->setJSON($output);
+    }
+
+
+    public function list2()
+    {
+        $success = false;
+        $message = 'Gagal Proses Data';
+        $builder = $this->db->table('futsal');
+
+
+        $id = $this->Request->getPost('id');
+        if (is_null($id)) {
+            $query =  $builder->get();
+            if ($query->getNumRows() > 0) {
+                $success = true;
+                $message = 'Berhasil mengambil list';
+                $data = $query->GetResultArray();
+            } else {
+                $success = true;
+                $message = 'Gagal Mengambil list, silahkan coba kembali';
+                $data = [];
+            }
+        } else {
+            $builder->where('futsal.id', $id);
+            $query =  $builder->get();
+            if ($query->getNumRows() > 0) {
+                $success = true;
+                $message = 'Berhasil mengambil list';
+                $data = $query->GetResultArray();
+            } else {
+                $success = true;
+                $message = 'Gagal Mengambil list, silahkan coba kembali';
+                $data = [];
+            }
+        }
+        // $this->response($produk, 200);
+
+
+        $output['success'] = $success;
+        $output['message'] = $message;
+        $output['data'] = $data;
 
         return $this->response->setJSON($output);
     }

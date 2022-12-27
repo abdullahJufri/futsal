@@ -49,14 +49,20 @@ $routes->post('api/admin/insert', 'api\admin\Futsal::insert');
 
 $routes->post('api/admin/schedule', 'api\admin\Schedule::list');
 
+
+
 //for USER
 
-//auth
 $routes->post('api/login', 'api\Auth::login');
 $routes->post('api/register', 'api\Auth::registration');
 
 $routes->get('api/futsal', 'api\Futsal::list');
 $routes->post('api/futsal', 'api\Futsal::list');
+$routes->post('api/futsal/dd', 'api\Futsal::dd_lapangan');
+
+$routes->post('api/schedule', 'api\Schedule::list');
+$routes->post('api/schedule/insert', 'api\Schedule::insert');
+
 
 
 // $routes->get('api/futsal/list2', 'api\Futsal::list/$1');

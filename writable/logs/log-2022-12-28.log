@@ -1,0 +1,9 @@
+CRITICAL - 2022-12-28 10:46:13 --> Namespace declaration statement has to be the very first statement or after any declare call in the script
+in APPPATH\Controllers\Api\MidtransController.php on line 4.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2022-12-28 10:46:58 --> Namespace declaration statement has to be the very first statement or after any declare call in the script
+in APPPATH\Controllers\Api\MidtransController.php on line 4.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2022-12-28 10:47:10 --> Namespace declaration statement has to be the very first statement or after any declare call in the script
+in APPPATH\Controllers\Api\MidtransController.php on line 4.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()

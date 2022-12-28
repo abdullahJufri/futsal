@@ -63,6 +63,9 @@ $routes->post('api/futsal/dd', 'api\Futsal::dd_lapangan');
 $routes->post('api/schedule', 'api\Schedule::list');
 $routes->post('api/schedule/insert', 'api\Schedule::insert');
 
+// midtrans
+$routes->get('api/midtrans', 'api\MidtransController::getSnapToken');
+
 
 
 // $routes->get('api/futsal/list2', 'api\Futsal::list/$1');

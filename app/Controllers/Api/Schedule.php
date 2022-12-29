@@ -31,7 +31,8 @@ class Schedule extends BaseController
 
 
         $builder_list_schedule = $this->db->table('schedule');
-        $builder_list_schedule->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        // $builder_list_schedule->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        $builder_list_schedule->select('jam');
         $builder_list_schedule->where('id_futsal', $id_futsal,);
         $builder_list_schedule->where('id_lapangan', $id_lapangan);
         $builder_list_schedule->where('tanggal', $tanggal,);
@@ -108,7 +109,7 @@ class Schedule extends BaseController
 
             if ($insertDatas) {
                 $success = true;
-                $message = 'Berhasil Booking ';
+                $message = 'Berhasil reservasi, Silahkan melakukan pembayaran ';
             } else {
                 $success = false;
                 $message = 'Gagal Menambah Data, silahkan coba kembali';
@@ -119,7 +120,7 @@ class Schedule extends BaseController
 
         $output['success'] = $success;
         $output['message'] = $message;
-        $output['data'] = $data;
+        // $output['data'] = $data;
 
         return $this->response->setJSON($output);
     }

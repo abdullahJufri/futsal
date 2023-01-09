@@ -26,6 +26,7 @@ class Schedule extends BaseController
 
         $id_futsal = $this->request->getPost('id_futsal');
         $id_lapangan = $this->request->getPost('id_lapangan');
+        // $tanggal = $this->request->getPost('tanggal');
         $tanggal = $this->request->getPost('tanggal');
         $jam = $this->request->getPost('jam');
 
@@ -74,6 +75,7 @@ class Schedule extends BaseController
         $id_lapangan = $this->request->getPost('id_lapangan');
         $tanggal = $this->request->getPost('tanggal');
         $jam = $this->request->getPost('jam');
+        $harga = $this->request->getPost('harga');
 
 
         $builder = $this->db->table('schedule');
@@ -103,6 +105,8 @@ class Schedule extends BaseController
             $dataValues['id_lapangan'] = $id_lapangan;
             $dataValues['tanggal'] = $tanggal;
             $dataValues['jam'] = $jam;
+            $dataValues['harga'] = $harga;
+
             $tgl_buat = date('Y-m-d H:i:s');
             $dataValues['created_at'] = $tgl_buat;
             $insertDatas =  $builder->insert($dataValues);

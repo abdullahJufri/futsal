@@ -64,7 +64,7 @@ $routes->post('api/schedule', 'api\Schedule::list');
 $routes->post('api/schedule/insert', 'api\Schedule::insert');
 
 // midtrans
-$routes->get('api/midtrans', 'api\MidtransController::getSnapToken');
+$routes->post('api/midtrans', 'api\MidtransController::getSnapToken');
 
 
 

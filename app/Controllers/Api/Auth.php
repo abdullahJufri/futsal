@@ -87,9 +87,9 @@ class Auth extends BaseController
             $message = 'Berhasil melakukan login';
             $data_user = $queryUsers->getRowArray();
         } else {
-            $success = true;
+            $success = false;
             $message = 'Kombinasi email dan password salah, silahkan coba kembali';
-            $data_user = [];
+            $data_user = null;
         }
 
         $output['success'] = $success;

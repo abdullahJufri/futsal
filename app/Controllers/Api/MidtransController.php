@@ -35,8 +35,9 @@ class MidtransController extends BaseController
     }
     public function getSnapToken()
     {
-
-
+        $email = $this->request->getPost('email');
+        $name = $this->request->getPost('name');
+        $harga = $this->request->getPost('harga');
 
 
         $item_list = array();
@@ -56,51 +57,51 @@ class MidtransController extends BaseController
 
         $item_list[] = [
             'id' => "111",
-            'price' => 20000,
+            'price' => $harga,
             'quantity' => 1,
-            'name' => "Majohn"
+            'name' => $name
         ];
 
         $transaction_details = array(
             'order_id' => rand(),
-            'gross_amount' => 20000, // no decimal allowed for creditcard
+            'gross_amount' => $harga, // no decimal allowed for creditcard
         );
 
 
         // Optional
-        $item_details = $item_list;
+        // $item_details = $item_list;
 
         // Optional
-        $billing_address = array(
-            'first_name'    => "Andri",
-            'last_name'     => "Litani",
-            'address'       => "Mangga 20",
-            'city'          => "Jakarta",
-            'postal_code'   => "16602",
-            'phone'         => "081122334455",
-            'country_code'  => 'IDN'
-        );
+        // $billing_address = array(
+        //     'first_name'    => "Andri",
+        //     'last_name'     => "Litani",
+        //     'address'       => "Mangga 20",
+        //     'city'          => "Jakarta",
+        //     'postal_code'   => "16602",
+        //     'phone'         => "081122334455",
+        //     'country_code'  => 'IDN'
+        // );
 
         // Optional
-        $shipping_address = array(
-            'first_name'    => "Obet",
-            'last_name'     => "Supriadi",
-            'address'       => "Manggis 90",
-            'city'          => "Jakarta",
-            'postal_code'   => "16601",
-            'phone'         => "08113366345",
-            'country_code'  => 'IDN'
-        );
+        // $shipping_address = array(
+        //     'first_name'    => "Obet",
+        //     'last_name'     => "Supriadi",
+        //     'address'       => "Manggis 90",
+        //     'city'          => "Jakarta",
+        //     'postal_code'   => "16601",
+        //     'phone'         => "08113366345",
+        //     'country_code'  => 'IDN'
+        // );
 
         // Optional
-        $customer_details = array(
-            'first_name'    => "Andri",
-            'last_name'     => "Litani",
-            'email'         => "andri@litani.com",
-            'phone'         => "081122334455",
-            'billing_address'  => $billing_address,
-            'shipping_address' => $shipping_address
-        );
+        // $customer_details = array(
+        //     'first_name'    => "Andri",
+        //     'last_name'     => "Litani",
+        //     'email'         => "andri@litani.com",
+        //     'phone'         => "081122334455",
+        //     'billing_address'  => $billing_address,
+        //     'shipping_address' => $shipping_address
+        // );
 
         // Optional, remove this to display all available payment methods
         // $enable_payments = array("bca_klikbca");
@@ -114,8 +115,8 @@ class MidtransController extends BaseController
         // );
         $transaction = array(
             'transaction_details' => $transaction_details,
-            'customer_details' => $customer_details,
-            'item_details' => $item_details,
+            // 'customer_details' => $customer_details,
+            // 'item_details' => $item_details,
         );
         // return $transaction;
         try {
@@ -125,7 +126,8 @@ class MidtransController extends BaseController
             $data = [
                 'code' => 1,
                 'message' => 'success',
-                'token' => $snapToken, 'paymentUrl' => $paymentUrl,
+                'token' => $snapToken, 
+                'paymentUrl' => $paymentUrl,
                 'order_id' => (string) $transaction_details['order_id']
             ];
 

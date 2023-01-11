@@ -31,25 +31,27 @@ class Schedule extends BaseController
         $jam = $this->request->getPost('jam');
 
 
-        $builder_list_schedule = $this->db->table('schedule');
-        // $builder_list_schedule->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
-        $builder_list_schedule->select('jam');
-        $builder_list_schedule->where('id_futsal', $id_futsal,);
-        $builder_list_schedule->where('id_lapangan', $id_lapangan);
-        $builder_list_schedule->where('tanggal', $tanggal,);
+        $builder = $this->db->table('schedule');
+        // $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        $builder->select('jam');
+        $builder->where('id_futsal', $id_futsal,);
+        $builder->where('id_lapangan', $id_lapangan);
+        $builder->where('tanggal', $tanggal,);
+        $where = "status = 'settlement' OR status = 'pending'";
+        $builder->where($where);
 
-        $builder_list_schedule->join('futsal f', 'f.id = schedule.id_futsal', 'left');
-        $builder_list_schedule->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
+        $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+        $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
 
-        $query_list_futsal    =  $builder_list_schedule->get();
-
-
+        $query    =  $builder->get();
 
 
-        if ($query_list_futsal->getNumRows() > 0) {
+
+
+        if ($query->getNumRows() > 0) {
             $success = true;
             $message = 'Berhasil mengambil list';
-            $data_list_futsal = $query_list_futsal->GetResultArray();
+            $data_list_futsal = $query->GetResultArray();
         } else {
             $success = true;
             $message = 'Gagal Mengambil list, silahkan coba kembali';

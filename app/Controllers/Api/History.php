@@ -5,7 +5,7 @@ namespace App\Controllers\api;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 
-class Schedule extends BaseController
+class History extends BaseController
 {
     use ResponseTrait;
 
@@ -24,43 +24,43 @@ class Schedule extends BaseController
         $success = false;
         $message = 'Gagal Proses Data';
 
-        $id_futsal = $this->request->getPost('id_futsal');
-        $id_lapangan = $this->request->getPost('id_lapangan');
+        $id_user = $this->request->getPost('id_user');
+        // $id_futsal = $this->request->getPost('id_futsal');
+        // $id_lapangan = $this->request->getPost('id_lapangan');
         // $tanggal = $this->request->getPost('tanggal');
-        $tanggal = $this->request->getPost('tanggal');
-        $jam = $this->request->getPost('jam');
+        // $tanggal = $this->request->getPost('tanggal');
+        // $jam = $this->request->getPost('jam');
 
 
-        $builder_list_schedule = $this->db->table('schedule');
-        // $builder_list_schedule->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
-        $builder_list_schedule->select('jam');
-        $builder_list_schedule->where('id_futsal', $id_futsal,);
-        $builder_list_schedule->where('id_lapangan', $id_lapangan);
-        $builder_list_schedule->where('tanggal', $tanggal,);
+        $builder = $this->db->table('schedule');
+        // $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        $builder->select('schedule.*,f.name, l.nama_lapangan');
+        $builder->where('id_user', $id_user);
+        $builder->orderBy('schedule.created_at', 'DESC');
+        $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+        $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
 
-        $builder_list_schedule->join('futsal f', 'f.id = schedule.id_futsal', 'left');
-        $builder_list_schedule->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
 
-        $query_list_futsal    =  $builder_list_schedule->get();
-
+        $query    =  $builder->get();
 
 
 
-        if ($query_list_futsal->getNumRows() > 0) {
+
+        if ($query->getNumRows() > 0) {
             $success = true;
             $message = 'Berhasil mengambil list';
-            $data_list_futsal = $query_list_futsal->GetResultArray();
+            $data = $query->GetResultArray();
         } else {
             $success = true;
             $message = 'Gagal Mengambil list, silahkan coba kembali';
-            $data_list_futsal = [];
+            $data = null;
         }
 
 
 
         $output['success'] = $success;
         $output['message'] = $message;
-        $output['data'] = $data_list_futsal;
+        $output['data'] = $data;
 
         return $this->response->setJSON($output);
     }
@@ -69,64 +69,35 @@ class Schedule extends BaseController
     {
         $success = false;
         $message = 'Gagal Proses Data';
-
-        $id_user = $this->request->getPost('id_user');
-        $id_futsal = $this->request->getPost('id_futsal');
-        $id_lapangan = $this->request->getPost('id_lapangan');
-        $tanggal = $this->request->getPost('tanggal');
-        $jam = $this->request->getPost('jam');
-        $harga = $this->request->getPost('harga');
         $order_id = $this->request->getPost('order_id');
         $status = $this->request->getPost('status');
 
         $builder = $this->db->table('schedule');
-        $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
-        $builder->where('id_futsal', $id_futsal,);
-        $builder->where('id_lapangan', $id_lapangan);
-        $builder->where('tanggal', $tanggal,);
-        $builder->where('jam', $jam,);
+        $builder->select('schedule.order_id, schedule.status');
+        $builder->where('order_id', $order_id);
+        $data1 = [
+            'status' => $status,
 
-
-        $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
-        $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
+        ];
+        $builder->update($data1);
 
         $query    =  $builder->get();
 
-
-
-
-
+        // $builder_list_futsal->join('lapangan l', 'l.id_jumlah_lapangan = futsal.jumlah_lapangan', 'left');
         if ($query->getNumRows() > 0) {
-            $success = false;
-            $message = 'full';
-            $data = [];
-        } else {
-            $dataValues['id_user'] = $id_user;
-            $dataValues['id_futsal'] = $id_futsal;
-            $dataValues['id_lapangan'] = $id_lapangan;
-            $dataValues['tanggal'] = $tanggal;
-            $dataValues['jam'] = $jam;
-            $dataValues['harga'] = $harga;
-            $dataValues['order_id'] = $order_id;
             $dataValues['status'] = $status;
-            $tgl_buat = date('Y-m-d H:i:s');
-            $dataValues['created_at'] = $tgl_buat;
-            $insertDatas =  $builder->insert($dataValues);
-
-            if ($insertDatas) {
-                $success = true;
-                $message = 'Berhasil reservasi, Silahkan melakukan pembayaran ';
-            } else {
-                $success = false;
-                $message = 'Gagal Menambah Data, silahkan coba kembali';
-            }
+            $success = true;
+            $message = 'Berhasil Update';
+        } else {
+            $success = true;
+            $message = 'Gagal Update, silahkan coba kembali';
         }
 
 
 
         $output['success'] = $success;
         $output['message'] = $message;
-        // $output['data'] = $data;
+
 
         return $this->response->setJSON($output);
     }

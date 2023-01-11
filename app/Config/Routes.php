@@ -63,8 +63,18 @@ $routes->post('api/futsal/dd', 'api\Futsal::dd_lapangan');
 $routes->post('api/schedule', 'api\Schedule::list');
 $routes->post('api/schedule/insert', 'api\Schedule::insert');
 
+$routes->post('api/history', 'api\History::list');
+$routes->post('api/history/update', 'api\History::insert');
+
 // midtrans
-$routes->post('api/midtrans', 'api\MidtransController::getSnapToken');
+$routes->post('api/midtrans', 'api\MidtransController::getSnapToken2');
+// $routes->post('api/midtrans', 'api\MidtransController::charge');
+// $routes->post('api/midtrans/charge', 'api\MidtransController::charge');
+
+// // $routes->post('api/charge/', 'api\ChargeController::test');
+// $routes->post('api/charge/', 'api\charge::index.php');
+// $routes->post('api/charge/chargeAPI', 'api\ChargeController::chargeAPI');
+
 
 
 

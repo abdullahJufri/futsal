@@ -94,28 +94,28 @@ class MidtransController extends BaseController
         // );
 
         // Optional
-        // $customer_details = array(
-        //     'first_name'    => "Andri",
-        //     'last_name'     => "Litani",
-        //     'email'         => "andri@litani.com",
-        //     'phone'         => "081122334455",
-        //     'billing_address'  => $billing_address,
-        //     'shipping_address' => $shipping_address
-        // );
+        $customer_details = array(
+            'first_name'    => $name,
+            // 'last_name'     => "Litani",
+            'email'         => $email,
+            // 'phone'         => "081122334455",
+            // 'billing_address'  => $billing_address,
+            // 'shipping_address' => $shipping_address
+        );
 
         // Optional, remove this to display all available payment methods
         // $enable_payments = array("bca_klikbca");
 
         // Fill transaction details
-        // $transaction = array(
-        //     'enabled_payments' => $enable_payments,
-        //     'transaction_details' => $transaction_details,
-        //     'customer_details' => $customer_details,
-        //     'item_details' => $item_details,
-        // );
+        $transaction = array(
+            // 'enabled_payments' => $enable_payments,
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            // 'item_details' => $item_details,
+        );
         $transaction = array(
             'transaction_details' => $transaction_details,
-            // 'customer_details' => $customer_details,
+            'customer_details' => $customer_details,
             // 'item_details' => $item_details,
         );
         // return $transaction;
@@ -126,7 +126,7 @@ class MidtransController extends BaseController
             $data = [
                 'code' => 1,
                 'message' => 'success',
-                'token' => $snapToken, 
+                'token' => $snapToken,
                 'paymentUrl' => $paymentUrl,
                 'order_id' => (string) $transaction_details['order_id']
             ];

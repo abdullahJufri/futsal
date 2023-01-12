@@ -37,8 +37,9 @@ class Schedule extends BaseController
         $builder->where('id_futsal', $id_futsal,);
         $builder->where('id_lapangan', $id_lapangan);
         $builder->where('tanggal', $tanggal,);
-        $where = "status = 'settlement' OR status = 'pending'";
+        $where = "(status = 'settlement' OR status = 'pending')";
         $builder->where($where);
+
 
         $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
         $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');

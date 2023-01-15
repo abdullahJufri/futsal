@@ -62,4 +62,52 @@ class Schedule extends BaseController
 
         return $this->response->setJSON($output);
     }
+
+    public function listOnline()
+    {
+        $success = false;
+        $message = 'Gagal Proses Data';
+
+        $id_futsal = $this->request->getPost('id_futsal');
+        $updated_at = $this->request->getPost('updated_at');
+        // $id_futsal = $this->request->getPost('id_futsal');
+        // $id_lapangan = $this->request->getPost('id_lapangan');
+        // $tanggal = $this->request->getPost('tanggal');
+        // $tanggal = $this->request->getPost('tanggal');
+        // $jam = $this->request->getPost('jam');
+
+
+        $builder = $this->db->table('schedule');
+        // $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
+        $builder->select('schedule.*,f.name, l.nama_lapangan');
+        $builder->where('id_futsal', $id_futsal);
+        $builder->like('schedule.updated_at', $updated_at);
+        $builder->orderBy('schedule.updated_at', 'ASC');
+        $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+        $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
+
+
+        $query    =  $builder->get();
+
+
+
+
+        if ($query->getNumRows() > 0) {
+            $success = true;
+            $message = 'Berhasil mengambil list';
+            $data = $query->GetResultArray();
+        } else {
+            $success = true;
+            $message = 'Gagal Mengambil list, silahkan coba kembali';
+            $data = [];
+        }
+
+
+
+        $output['success'] = $success;
+        $output['message'] = $message;
+        $output['data'] = $data;
+
+        return $this->response->setJSON($output);
+    }
 }

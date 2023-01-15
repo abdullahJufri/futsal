@@ -71,28 +71,23 @@ class Futsal extends BaseController
         $success = false;
         $message = 'Gagal Proses Data';
 
-        $id = $this->request->getPost('id');
+        $id_pengelola = $this->request->getPost('id_pengelola');
+ 
 
-        $builder_futsal_admin = $this->db->table('futsal');
-        $builder_futsal_admin->where('futsal.id_pengelola', $id);
-        $builder_futsal_admin->select('*');
-        $query_futsal_admin    =  $builder_futsal_admin->get();
-        $row_futsal_admin = $query_futsal_admin->getRowArray();
+        $builder = $this->db->table('futsal');
+        $builder->where('futsal.id_pengelola', $id_pengelola);
+        $builder->select('*,id as id_futsal');
+        $query    =  $builder->get();
 
 
-        if ($row_futsal_admin['id_pengelola'] == $id) {
-            if ($query_futsal_admin->getNumRows() > 0) {
-                $success = true;
-                $message = 'Berhasil mengambil data';
-                $data_futsal_admin = $query_futsal_admin->GetResultArray();
-            } else {
-                $success = true;
-                $message = 'Gagal Mengambil list, silahkan coba kembali';
-                $data_futsal_admin = [];
-            }
+        if ($query->getNumRows() > 0) {
+            $success = true;
+            $message = 'Berhasil mengambil data';
+            $data_futsal_admin = $query->GetRowArray();
         } else {
-            $success = false;
-            $message = 'BUKAN ADMIN, silahkan coba kembali';
+            $success = true;
+            $message = 'Gagal Mengambil list, silahkan coba kembali';
+            $data_futsal_admin = [];
         }
 
 

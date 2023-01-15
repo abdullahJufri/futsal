@@ -47,7 +47,9 @@ $routes->post('api/admin/register', 'api\Auth::registration');
 $routes->post('api/admin/futsal', 'api\admin\Futsal::list');
 $routes->post('api/admin/insert', 'api\admin\Futsal::insert');
 
-$routes->post('api/admin/schedule', 'api\admin\Schedule::list');
+// $routes->post('api/admin/schedule', 'api\admin\Schedule::list');
+$routes->post('api/admin/schedule', 'api\admin\Schedule::listOnline');
+$routes->post('api/admin/check', 'api\admin\Check::list');
 
 
 

@@ -65,7 +65,7 @@ class History extends BaseController
         return $this->response->setJSON($output);
     }
 
-    public function insert()
+    public function update()
     {
         $success = false;
         $message = 'Gagal Proses Data';

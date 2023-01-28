@@ -79,11 +79,14 @@ class Schedule extends BaseController
 
         $builder = $this->db->table('schedule');
         // $builder->select('schedule.id,tanggal,jam,id_futsal,id_lapangan, f.name as nama_futsal,  l.id as id_lapangan,l.nama_lapangan, status,schedule.created_at');
-        $builder->select('schedule.*,f.name, l.nama_lapangan');
+        $builder->select('schedule.*,f.name, l.nama_lapangan, u.name');
         $builder->where('id_futsal', $id_futsal);
         $builder->like('schedule.updated_at', $updated_at);
+        $where = "(status = 'settlement')";
+        $builder->where($where);
         $builder->orderBy('schedule.updated_at', 'ASC');
         $builder->join('futsal f', 'f.id = schedule.id_futsal', 'left');
+        $builder->join('users u', 'u.id = schedule.id_user', 'left');
         $builder->join('lapangan l', 'l.id = schedule.id_lapangan', 'left');
 
 

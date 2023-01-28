@@ -72,7 +72,7 @@ class Futsal extends BaseController
         $message = 'Gagal Proses Data';
 
         $id_pengelola = $this->request->getPost('id_pengelola');
- 
+
 
         $builder = $this->db->table('futsal');
         $builder->where('futsal.id_pengelola', $id_pengelola);
@@ -94,6 +94,51 @@ class Futsal extends BaseController
         $output['success'] = $success;
         $output['message'] = $message;
         $output['data'] = $data_futsal_admin;
+
+        return $this->response->setJSON($output);
+    }
+
+    public function update()
+    {
+        $success = false;
+        $message = 'Gagal Proses Data';
+        $id_pengelola = $this->request->getPost('id_pengelola');
+        $alamat_lapangan = $this->request->getPost('alamat_lapangan');
+        $jumlah_lapangan = $this->request->getPost('jumlah_lapangan');
+        $harga_pagi = $this->request->getPost('harga_pagi');
+        $harga_malam = $this->request->getPost('harga_malam');
+
+        $builder = $this->db->table('futsal');
+        $builder->select('*');
+        $builder->where('id_pengelola', $id_pengelola);
+        $data1 = [
+            'jumlah_lapangan' => $jumlah_lapangan,
+            'alamat_lapangan' => $alamat_lapangan,
+            'harga_pagi' => $harga_pagi,
+            'harga_malam' => $harga_malam,
+
+        ];
+        $builder->update($data1);
+
+        $query    =  $builder->get();
+
+        // $builder_list_futsal->join('lapangan l', 'l.id_jumlah_lapangan = futsal.jumlah_lapangan', 'left');
+        if ($query->getNumRows() > 0) {
+            $dataValues['jumlah_lapangan'] = $jumlah_lapangan;
+            $dataValues['harga_pagi'] = $harga_pagi;
+            $dataValues['harga_malam'] = $harga_malam;
+            $success = true;
+            $message = 'Berhasil Update';
+        } else {
+            $success = true;
+            $message = 'Gagal Update, silahkan coba kembali';
+        }
+
+
+
+        $output['success'] = $success;
+        $output['message'] = $message;
+
 
         return $this->response->setJSON($output);
     }

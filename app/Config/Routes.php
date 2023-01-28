@@ -41,46 +41,48 @@ $routes->get('/', 'Home::index');
 
 
 //for ADMIN
-$routes->post('api/admin/login', 'api\Auth::login');
-$routes->post('api/admin/register', 'api\Auth::registration');
+$routes->post('api/admin/login', 'Api\Auth::login');
+$routes->post('api/admin/register', 'Api\Auth::registration');
 
-$routes->post('api/admin/futsal', 'api\admin\Futsal::list');
-$routes->post('api/admin/insert', 'api\admin\Futsal::insert');
+$routes->post('api/admin/futsal', 'Api\Admin\Futsal::list');
+$routes->post('api/admin/insert', 'Api\Admin\Futsal::insert');
 
-// $routes->post('api/admin/schedule', 'api\admin\Schedule::list');
-$routes->post('api/admin/schedule', 'api\admin\Schedule::listOnline');
-$routes->post('api/admin/check', 'api\admin\Check::list');
+// $routes->post('api/admin/schedule', 'Api\Admin\Schedule::list');
+$routes->post('api/admin/schedule', 'Api\Admin\Schedule::listOnline');
+$routes->post('api/admin/check', 'Api\Admin\Check::list');
+
+$routes->post('api/admin/futsal/update', 'Api\Admin\Futsal::update');
 
 
 
 //for USER
 
-$routes->post('api/login', 'api\Auth::login');
-$routes->post('api/register', 'api\Auth::registration');
+$routes->post('api/login', 'Api\Auth::login');
+$routes->post('api/register', 'Api\Auth::registration');
 
-$routes->get('api/futsal', 'api\Futsal::list');
-$routes->post('api/futsal', 'api\Futsal::list');
-$routes->post('api/futsal/dd', 'api\Futsal::dd_lapangan');
+$routes->get('api/futsal', 'Api\Futsal::list');
+$routes->post('api/futsal', 'Api\Futsal::list');
+$routes->post('api/futsal/dd', 'Api\Futsal::dd_lapangan');
 
-$routes->post('api/schedule', 'api\Schedule::list');
-$routes->post('api/schedule/insert', 'api\Schedule::insert');
+$routes->post('api/schedule', 'Api\Schedule::list');
+$routes->post('api/schedule/insert', 'Api\Schedule::insert');
 
-$routes->post('api/history', 'api\History::list');
-$routes->post('api/history/update', 'api\History::insert');
+$routes->post('api/history', 'Api\History::list');
+$routes->post('api/history/update', 'Api\History::update');
 
 // midtrans
-$routes->post('api/midtrans', 'api\MidtransController::getSnapToken2');
-// $routes->post('api/midtrans', 'api\MidtransController::charge');
-// $routes->post('api/midtrans/charge', 'api\MidtransController::charge');
+$routes->post('api/midtrans', 'Api\MidtransController::getSnapToken2');
+// $routes->post('api/midtrans', 'Api\MidtransController::charge');
+// $routes->post('api/midtrans/charge', 'Api\MidtransController::charge');
 
-// // $routes->post('api/charge/', 'api\ChargeController::test');
-// $routes->post('api/charge/', 'api\charge::index.php');
-// $routes->post('api/charge/chargeAPI', 'api\ChargeController::chargeAPI');
-
-
+// // $routes->post('api/charge/', 'Api\ChargeController::test');
+// $routes->post('api/charge/', 'Api\charge::index.php');
+// $routes->post('api/charge/chargeAPI', 'Api\ChargeController::chargeAPI');
 
 
-// $routes->get('api/futsal/list2', 'api\Futsal::list/$1');
+
+
+// $routes->get('api/futsal/list2', 'Api\Futsal::list/$1');
 
 
 /*
